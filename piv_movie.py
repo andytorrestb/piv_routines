@@ -13,25 +13,29 @@ def main():
   if (len(sys.argv) == 1):
     raise Exception('Provide video file to process')
 
-  # Extract frames from video file
+  if (len(sys.argv) > 2):
+    raise Exception('Too many arguments. Expected 1')
+
   if (len(sys.argv) == 2):
+        # Extract frames from video file
         file_name = sys.argv[1]
         input_dir = ef.extract_frames(file_name)
 
   # Rename images accoriding to a-b pairs
   ri.rename_images(input_dir)
   
-  file_name = os.listdir(input_dir)[0]
+  # Make directories to hold PIV results.
+  results_dir = input_dir.rpartition('/')[0]
+  results_dir = results_dir.rpartition('/')[0]
+  results_dir = results_dir.rpartition('/')[0] + '/data'
+  os.mkdir(results_dir)
+  os.mkdir(results_dir + '/results')
 
-  name, number, frame, ext = file_name.split('.')
-  print(name, number, frame, ext)
   # Process images using OpenPIV
+  file_name = os.listdir(input_dir)[0]
+  name, number, frame, ext = file_name.split('.')
   pattern_a = name + '.*.a.' + ext
   pattern_b = name + '.*.b.' + ext
-
-  results_dir = input_dir.rpartition('/')[0]
-  results_dir = results_dir.rpartition('/')[0] + '/results'
-  os.mkdir(results_dir)
 
   task = tools.Multiprocesser(
       data_dir = input_dir,
@@ -40,6 +44,8 @@ def main():
       )
 
   task.run( func = piv.process_img_pair, n_cpus=8 )
+
+
 
 
 main()

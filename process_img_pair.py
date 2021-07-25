@@ -69,6 +69,7 @@ def process_img_pair( args ):
 
   case_name, f_num, letter, ext = name.split('.')
 
-  filename = path.rpartition('/')[0] + '/results/' + case_name + '.' + f_num + '.' + 'txt'
+  path = path.rpartition('/')[0]
+  filename = path.rpartition('/')[0] + '/data/results/' + case_name + '.' + f_num + '.' + 'txt'
 
   tools.save(x, y, u3, v3, mask, filename)
