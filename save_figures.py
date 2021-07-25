@@ -1,6 +1,11 @@
 import os
 import matplotlib.pyplot as plt
 from openpiv import tools, pyprocess, validation, filters, scaling
+import numpy as np
+import cv2
+
+import sys
+from PIL import Image
 
 def process_img_number(number):
   while len(number) < 4:
@@ -36,10 +41,10 @@ def read_cfd_images(path):
 def read_piv_images(path):
   piv_images = []
 
-  for file in sorted(os.listdir(path + 'img/')):
+  for file in sorted(os.listdir(path)):
     piv_images.append(
         Image.open(
-            path + 'img/' + file
+            path + file
         )
     )
 
@@ -66,9 +71,7 @@ def merge_image_pair(cfd_image, piv_image):
   return result
      
 
-def merge_images(path):
-  cfd_images = read_cfd_images(path)
-  piv_images = read_piv_images(path)
+def merge_images(cfd_images, piv_images):
 
   merged_images = []
 
@@ -121,3 +124,15 @@ def save_piv_figures(path):
     print('')
     # print(type(flowfield[0]), file_path, number)
     flowfield[0].savefig(file_path)
+
+    plt.close(flowfield[0])
+
+def img_to_mp4(img_array):
+  
+  print(len(img_array))
+  four_cc = cv2.VideoWriter_fourcc('MP4')
+  out = cv2.VideoWriter('project.mp4',four_cc, 8, (2*576,576))
+  
+  for i in range(len(img_array)):
+      out.write(img_array[i])
+  out.release()
