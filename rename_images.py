@@ -66,11 +66,3 @@ def rename_images( path ):
       os.rename(path + img, path + file_a)
       os.rename(path + next_image, path + file_b)
 
-
-def main():
-  # print('hello')
-  rename_images('./test/')
-
-
-
-main()
