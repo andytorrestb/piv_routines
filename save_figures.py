@@ -67,7 +67,7 @@ def merge_image_pair(cfd_image, piv_image):
   result.paste(im = cfd_image, box = (0, 0))
   result.paste(im = piv_image, box = (cfd_width, 0))
 
-  # print(type(result))
+  print(type(result))
   return result
      
 
@@ -119,7 +119,7 @@ def save_piv_figures(path):
 
     number = process_img_number(number)
 
-    file_path = path + name + '.' + number + '.png'
+    file_path = path + name + '.' + number + '.jpg'
     print(file_path)
     print('')
     # print(type(flowfield[0]), file_path, number)
@@ -130,9 +130,11 @@ def save_piv_figures(path):
 def img_to_mp4(img_array):
   
   print(len(img_array))
-  four_cc = cv2.VideoWriter_fourcc('MP4')
-  out = cv2.VideoWriter('project.mp4',four_cc, 8, (2*576,576))
+  four_cc = cv2.VideoWriter_fourcc(*"IYUV")
+  out = cv2.VideoWriter('project.avi',four_cc, 8, (2*576,576))
   
   for i in range(len(img_array)):
-      out.write(img_array[i])
+      print(type(img_array[i]))
+      print(img_array[i].shape)
+      print(out.write(img_array[i]))
   out.release()
