@@ -128,13 +128,10 @@ def save_piv_figures(path):
     plt.close(flowfield[0])
 
 def img_to_mp4(img_array):
-  
-  print(len(img_array))
-  four_cc = cv2.VideoWriter_fourcc(*"IYUV")
-  out = cv2.VideoWriter('project.avi',four_cc, 8, (2*576,576))
-  
+  fps = 8
+  h,w,l = img_array[0].shape
+  size = (w,h)
+  out = cv2.VideoWriter('test.mp4',cv2.VideoWriter_fourcc(*'mp4v'), fps, size)
   for i in range(len(img_array)):
-      print(type(img_array[i]))
-      print(img_array[i].shape)
-      print(out.write(img_array[i]))
+      out.write(img_array[i])
   out.release()
