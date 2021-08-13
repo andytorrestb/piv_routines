@@ -119,6 +119,7 @@ def save_piv_figures(path):
 
     number = process_img_number(number)
 
+    # Save to file.
     file_path = path + name + '.' + number + '.jpg'
     print(file_path)
     print('')
@@ -128,6 +129,9 @@ def save_piv_figures(path):
     plt.close(flowfield[0])
 
 def img_to_mp4(img_array):
+  """
+      Make video from array of images. 
+  """
   fps = 8
   h,w,l = img_array[0].shape
   size = (w,h)

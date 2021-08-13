@@ -10,11 +10,12 @@ def process_img_number(number):
   return number
 
 def extract_frames(file_name):
+    # Decompose file name.
     if file_name.__contains__('.mp4') or file_name.__contains__('.avi'):
-      # Make directory to save results. 
       name, ext = file_name.split('.')
       img_dir = './' + name + '/' + 'img/input/'
 
+      # Make directory to save results. 
       if not os.path.exists(img_dir):
         dirs = img_dir.split('/')
 
@@ -28,6 +29,7 @@ def extract_frames(file_name):
         print(curr_dir)
         os.mkdir(curr_dir)
 
+      # Extract frames using OpenCV
       capture = cv2.VideoCapture(file_name)
       success, image = capture.read()
 

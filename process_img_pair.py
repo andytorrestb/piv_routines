@@ -56,6 +56,7 @@ def process_img_pair( args ):
     overlap=overlap,
   )
 
+  # Scale data
   scaling_factor = 5
   x, y, u3, v3 = scaling.uniform(
       x, y, u2, v2,
@@ -64,14 +65,10 @@ def process_img_pair( args ):
 
   # 0,0 shall be bottom left, positive rotation rate is counterclockwise
   x, y, u3, v3 = tools.transform_coordinates(x, y, u3, v3)  
+  
   # save to a file
-
   case_name, f_num, letter, ext = name.split('.')
-
   path = path.rpartition('/')[0]
-
   filename = path.rpartition('/')[0] + '/data/results/' + case_name + '.' + f_num + '.' + 'txt'
-
   print('finished processing ', filename)
-
   tools.save(x, y, u3, v3, mask, filename)
