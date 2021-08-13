@@ -24,11 +24,11 @@ def read_cfd_images(path):
       # Open image of current file
       img = Image.open(path + file)
       AR = img.size[0] / img.size[1]
-      img = img.resize((576, int(576 / 2)))
+      img = img.resize((800, int(800/ 2)))
       img_w, img_h = img.size
 
       # Make background image
-      background = Image.new('RGBA', (576, 576), (255, 255, 255))
+      background = Image.new('RGBA', (800, 800), (255, 255, 255))
       bg_w, bg_h = background.size
 
       # Paste img on background and save to array to be returned. 
