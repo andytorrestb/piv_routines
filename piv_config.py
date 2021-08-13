@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import preprocessing
+# import preprocessing
 
 basic_params = {
   'winsize': 32,
@@ -15,7 +15,7 @@ validation_params = {
 
 outlier_params = {
   'using': True,
-  'method': 'test',
+  'method': 'localmean',
   'max_iter': 3,
   'kernel_size': 3
 }

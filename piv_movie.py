@@ -7,6 +7,8 @@ import rename_images as ri
 import process_img_pair as piv
 import save_figures as fig
 
+import piv_config as cfg
+
 def main():
   # Check for valid input
   if (len(sys.argv) == 1):
@@ -43,7 +45,7 @@ def main():
       pattern_b=pattern_b
       )
 
-  task.run( func = piv.process_img_pair, n_cpus=8 )
+  task.run( func = piv.process_img_pair, n_cpus=1, params = cfg.params )
 
   # Plot results and save image.
   piv_results = input_dir.rpartition('/')[0].rpartition('/')[0].rpartition('/')[0]

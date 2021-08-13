@@ -1,11 +1,15 @@
 from openpiv import tools, pyprocess, validation, filters, scaling
 import numpy as np
+import piv_config as cfg
 
-def process_img_pair( args ):
+
+def process_img_pair( args, params ):
   """
       Custom function used to calculate a flowfield from an image pair.
       It is fed to the Multiprocessor object and produces flowfields in batches.
   """
+
+  # checkParams(params)
 
   # Unpack arguments. All are required.
   file_a, file_b, counter = args
@@ -20,33 +24,38 @@ def process_img_pair( args ):
   frame_b = tools.imread( file_b )
 
   # Search parameters
-  winsize = 32 # pixels, interrogation window size in frame A
-  searchsize = 38  # pixels, search area size in frame B
-  overlap = 17 # pixels, 50% overlap
-  dt = 2e-5 # sec, time interval between the two frames
+  # winsize = 32 # pixels, interrogation window size in frame A
+  # searchsize = 38  # pixels, search area size in frame B
+  # overlap = 17 # pixels, 50% overlap
+  # dt = 2e-5 # sec, time interval between the two frames
+
+  winsize = params['basic']['winsize'] # pixels, interrogation window size in frame A
+  searchsize = params['basic']['searchsize']  # pixels, search area size in frame B
+  overlap = params['basic']['overlap'] # pixels, 50% overlap
+  dt =  params['basic']['dt'] # sec, time interval between the two frames
 
   # # --- Process Data ---
   u0, v0, sig2noise = pyprocess.extended_search_area_piv(
-    frame_a.astype(np.int32),
-    frame_b.astype(np.int32),
-    window_size=winsize,
-    overlap=overlap,
-    dt=dt,
-    search_area_size=searchsize,
-    sig2noise_method='peak2peak',
+  frame_a.astype(np.int32),
+  frame_b.astype(np.int32),
+  window_size=winsize,
+  overlap=overlap,
+  dt=dt,
+  search_area_size=searchsize,
+  sig2noise_method='peak2peak',
   )
   
   u1, v1, mask = validation.sig2noise_val(
     u0, v0,
     sig2noise,
-    threshold = 1.05,
+    threshold = params['validation']['threshold'],
     )
   
   u2, v2 = filters.replace_outliers(
     u1, v1,
-    method='localmean',
-    max_iter=3,
-    kernel_size=3,
+    method = params['outliers']['method'],
+    max_iter= params['outliers']['max_iter'],
+    kernel_size = params['outliers']['kernel_size'],
   )
 
   # get window centers coordinates
@@ -57,7 +66,7 @@ def process_img_pair( args ):
   )
 
   # Scale data
-  scaling_factor = 5
+  scaling_factor = params['scale']['scale']
   x, y, u3, v3 = scaling.uniform(
       x, y, u2, v2,
       scaling_factor = scaling_factor,  # 96.52 pixels/millimeter
