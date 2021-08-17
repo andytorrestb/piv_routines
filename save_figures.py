@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from openpiv import tools, pyprocess, validation, filters, scaling
 import numpy as np
 import cv2
+import piv_config as cfg
 
 import sys
 from PIL import Image
@@ -14,6 +15,8 @@ def process_img_number(number):
 
 def read_cfd_images(path):
   cfd_images = []
+  size = cfg.params['video']['size'] 
+  white = (255, 255, 255)
 
   for file in os.listdir(path):
     # Checks if file is frame a.
@@ -24,11 +27,11 @@ def read_cfd_images(path):
       # Open image of current file
       img = Image.open(path + file)
       AR = img.size[0] / img.size[1]
-      img = img.resize((800, int(800/ 2)))
+      img = img.resize((size, int(size/ 2)))
       img_w, img_h = img.size
 
       # Make background image
-      background = Image.new('RGBA', (800, 800), (255, 255, 255))
+      background = Image.new('RGBA', (size, size), white)
       bg_w, bg_h = background.size
 
       # Paste img on background and save to array to be returned. 

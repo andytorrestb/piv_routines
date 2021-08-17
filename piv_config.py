@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# import preprocessing
 
 basic_params = {
   'winsize': 32,
@@ -25,11 +24,14 @@ scaling_params = {
   'scale': 5
 }
 
+video_params = {
+  'size': 800
+}
+
 params = {
   'basic': basic_params,
   'validation': validation_params,
   'outliers': outlier_params,
-  'scale': scaling_params
+  'scale': scaling_params,
+  'video': video_params
 }
-
-use_anonymous = True
