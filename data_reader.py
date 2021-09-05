@@ -2,7 +2,7 @@ from OpenPivParams import OpenPivParams
 import pandas as pd
 import matplotlib.pyplot as plt
 
-class PivContour():
+class DataReader():
 
   def __init__(self):
     self.p = OpenPivParams()
