@@ -14,6 +14,11 @@ def extract_frames(file_name):
     if file_name.__contains__('.mp4') or file_name.__contains__('.avi'):
       name, ext = file_name.split('.')
       img_dir = './' + name + '/' + 'img/input/'
+      # print(name)
+
+      # if name has extra values, from upper level directories.
+      if '/' in name:
+        name = name.split('/')[-1]
 
       # Make directory to save results. 
       if not os.path.exists(img_dir):
