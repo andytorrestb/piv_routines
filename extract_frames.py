@@ -3,11 +3,21 @@
 """
 import cv2, os, sys
 
-
 def process_img_number(number):
   while len(number) < 4:
     number = "0" + number
   return number
+
+def mkdir_crop(path):
+  crop_dir = path
+  print(crop_dir)
+
+  crop_dirs = ['left', 'center', 'right']
+
+  for dir in range(len(crop_dirs)):
+    # print(crop_dir + crop_dirs[dir])
+    if not os.path.exists(crop_dir + crop_dirs[dir]):
+      os.mkdir(crop_dir + crop_dirs[dir])
 
 def extract_frames(file_name):
     # Decompose file name.
@@ -41,6 +51,8 @@ def extract_frames(file_name):
         curr_dir = curr_dir + '/' + dirs[4]
         print(curr_dir)
         os.mkdir(curr_dir)
+
+      mkdir_crop(img_dir)
 
       # print(name)
       # Extract frames using OpenCV
