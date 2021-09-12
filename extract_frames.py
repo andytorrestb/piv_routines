@@ -13,6 +13,7 @@ def extract_frames(file_name):
     # Decompose file name.
     if file_name.__contains__('.mp4') or file_name.__contains__('.avi'):
       name, ext = file_name.split('.')
+      # print(name)
       img_dir = './' + name + '/' + 'img/input/'
       # print(name)
 
@@ -22,32 +23,45 @@ def extract_frames(file_name):
 
       # Make directory to save results. 
       if not os.path.exists(img_dir):
+        print(img_dir)
         dirs = img_dir.split('/')
-
+        print(dirs)
+        # curr_dir = ./name/
         curr_dir = dirs[0] + '/' + dirs[1]
         print(curr_dir)
-        os.mkdir(curr_dir)
+        if not os.path.exists(curr_dir):
+          os.mkdir(curr_dir)
         curr_dir = curr_dir + '/' + dirs[2]
         print(curr_dir)
         os.mkdir(curr_dir)
+        # curr_dir = ./name/img/input/
         curr_dir = curr_dir + '/' + dirs[3]
         print(curr_dir)
         os.mkdir(curr_dir)
+        curr_dir = curr_dir + '/' + dirs[4]
+        print(curr_dir)
+        os.mkdir(curr_dir)
 
+      # print(name)
       # Extract frames using OpenCV
-      capture = cv2.VideoCapture(file_name)
+      # print('file_name = ', os.getcwd() + '/' + file_name)
+      capture = cv2.VideoCapture(os.getcwd() + '/' + file_name)
       success, image = capture.read()
 
+      print('success = ', success)
+
+      print('entering while loop')
       i=0
       while(capture.isOpened()):
           ret, frame = capture.read()
           if ret == False:
             break
           digit = process_img_number(str(i))
+          print(img_dir, name, digit)
           img_file = img_dir + name  + '.' + digit + '.jpg'
-          # print(img_file)
-          cv2.imwrite(img_file, frame)
-          # print(digit)
+          print(img_file)
+          print(cv2.imwrite(img_file, frame))
+          print(digit)
           i+=1
 
       capture.release()
