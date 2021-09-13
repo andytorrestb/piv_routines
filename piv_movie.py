@@ -24,14 +24,14 @@ def main():
 
   # Rename images accoriding to a-b pairs
   ri.rename_images(input_dir)
-  
-  # Make directories to hold PIV results.
 
+  # Make directories to hold PIV results.
   results_dir = input_dir.rpartition('/')[0]
   results_dir = results_dir.rpartition('/')[0]
   results_dir = results_dir.rpartition('/')[0] + '/data'
   os.mkdir(results_dir)
   os.mkdir(results_dir + '/results')
+
 
   # Process images using OpenPIV. Save results as text file.
   file_name = os.listdir(input_dir)[0]

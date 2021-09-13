@@ -79,7 +79,6 @@ def plot_cropped_img(img_array):
   plt.axis('off')
   plt.title("First")
 
-
   fig.add_subplot(rows, columns, 2)
     
   # showing image
