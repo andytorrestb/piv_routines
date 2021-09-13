@@ -50,7 +50,8 @@ def extract_frames(file_name):
         os.mkdir(curr_dir)
         curr_dir = curr_dir + '/' + dirs[4]
         print(curr_dir)
-        os.mkdir(curr_dir)
+        if not os.path.exists(curr_dir):
+          os.mkdir(curr_dir)
 
       mkdir_crop(img_dir)
 

@@ -28,10 +28,16 @@ video_params = {
   'size': 800
 }
 
+cropping_params = {
+  'crop': False,
+  'pos': None
+}
+
 params = {
   'basic': basic_params,
   'validation': validation_params,
   'outliers': outlier_params,
   'scale': scaling_params,
-  'video': video_params
+  'video': video_params,
+  'crop': cropping_params
 }
