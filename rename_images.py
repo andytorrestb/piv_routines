@@ -1,4 +1,4 @@
-import os
+import os, glob
 
 def process_img_number(number):
   while len(number) < 4:
@@ -19,10 +19,13 @@ def rename_images( path ):
   """
 
   # Save a sorted list of files
-  files = sorted(os.listdir(path))
+  files = sorted(glob.glob(path + '*.jpg'))
 
   for img in files:
     # Unpack name info
+    # print('printing img', img)
+    img = img.rpartition('/')[-1]
+    # print('printing img', img)
     name, number, ext = img.split('.', 3)
 
     # Logic used to determine renaming of file.
