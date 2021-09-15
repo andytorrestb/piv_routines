@@ -18,7 +18,7 @@ def read_cfd_images(path):
   size = cfg.params['video']['size'] 
   white = (255, 255, 255)
 
-  for file in os.listdir(path):
+  for file in sorted(os.listdir(path)):
     # Checks if file is frame a.
     # + 1 is required bc .find returns
     # position of string and -1 if not found
