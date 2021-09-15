@@ -1,5 +1,4 @@
 from data_reader import DataReader, contour
-from contour import contour
 import matplotlib.pyplot as plt
 
 c = DataReader()
