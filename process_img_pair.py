@@ -75,6 +75,24 @@ def process_img_pair( args, params ):
   # 0,0 shall be bottom left, positive rotation rate is counterclockwise
   x, y, u3, v3 = tools.transform_coordinates(x, y, u3, v3)  
   
+  print(np.amax(x))
+  print(type(x))
+
+  # Transform coordinates according to cropped images
+  # Every x coordinates needs to start at the max 
+  # value of the previous position in the cropped image
+  if params['crop']['crop']:
+    if params['crop']['pos'] == 'left':
+      params['crop']['l_x_max'] = np.amax(x)
+
+    if params['crop']['pos'] == 'center':
+      x = x + params['crop']['l_x_max']
+      params['crop']['c_l_max'] = np.amax(x)
+
+    if params['crop']['pos'] == 'right':
+      x = x + params['crop']['c_l_max']
+
+
   # save to a file
   case_name, f_num, letter, ext = name.split('.')
   path = path.rpartition('/')[0]

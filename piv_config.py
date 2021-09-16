@@ -30,7 +30,9 @@ video_params = {
 
 cropping_params = {
   'crop': False,
-  'pos': None
+  'pos': None,
+  'l_x_max': 0,
+  'c_x_max': 0
 }
 
 params = {
