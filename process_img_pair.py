@@ -81,10 +81,11 @@ def process_img_pair( args, params ):
   filename = path.rpartition('/')[0].rpartition('/')[0] + '/' + case_name + '/data/results/' + case_name + '.' + f_num + '.' + 'txt'
 
   if params['crop']['crop']:
-    filename = path.rpartition('/')[0].rpartition('/')[0] + '/' + case_name + '/data/results/' + params['crop']['pos'] + '/' + f_num + '.' + 'txt'
+    filename = path.rpartition('/')[0].rpartition('/')[0] + '/' + '/data/results/' + params['crop']['pos'] + '/' + f_num + '.' + 'txt'
 
   print('finished processing ', filename)
   print(type(x), type(y), type(u3), type(v3), type(mask))
 
   with open(filename, 'w') as fp:
+    print(fp)
     tools.save(x, y, u3, v3, mask, fp)

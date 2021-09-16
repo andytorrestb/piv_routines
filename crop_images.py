@@ -42,9 +42,9 @@ def save_cropped_images(path, name, cropped_frames):
   counter = 0
   for img_array in cropped_frames:
     file_num = process_img_number(str(counter))
-    img_array[0].save(path + 'left/' + name + '.' + file_num+ '.jpeg')
-    img_array[1].save(path + 'center/' + name + '.' + file_num+ '.jpeg')
-    img_array[2].save(path + 'right/' + name + '.' + file_num+ '.jpeg')
+    img_array[0].save(path + 'left/' + name + '.' + file_num+ '.jpg')
+    img_array[1].save(path + 'center/' + name + '.' + file_num+ '.jpg')
+    img_array[2].save(path + 'right/' + name + '.' + file_num+ '.jpg')
     counter = counter + 1
   return
 
