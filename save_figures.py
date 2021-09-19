@@ -1,4 +1,4 @@
-import os
+import os, glob
 import matplotlib.pyplot as plt
 from openpiv import tools, pyprocess, validation, filters, scaling
 import numpy as np
@@ -22,22 +22,25 @@ def read_cfd_images(path):
     # Checks if file is frame a.
     # + 1 is required bc .find returns
     # position of string and -1 if not found
-    if file.find('.a.') + 1:
+    if file.find('.jpg') + 1:
+      name, num, ext = file.split('.')
 
-      # Open image of current file
-      img = Image.open(path + file)
-      AR = img.size[0] / img.size[1]
-      img = img.resize((size, int(size/ 2)))
-      img_w, img_h = img.size
+      if int(num) % 2 == 1:
 
-      # Make background image
-      background = Image.new('RGBA', (size, size), white)
-      bg_w, bg_h = background.size
+        # Open image of current file
+        img = Image.open(path + file)
+        AR = img.size[0] / img.size[1]
+        img = img.resize((size, int(size/ 2)))
+        img_w, img_h = img.size
 
-      # Paste img on background and save to array to be returned. 
-      offset = ((bg_w - img_w) // 2, (bg_h - img_h) // 2)
-      background.paste(img, offset)
-      cfd_images.append(background)
+        # Make background image
+        background = Image.new('RGBA', (size, size), white)
+        bg_w, bg_h = background.size
+
+        # Paste img on background and save to array to be returned. 
+        offset = ((bg_w - img_w) // 2, (bg_h - img_h) // 2)
+        background.paste(img, offset)
+        cfd_images.append(background)
 
   return cfd_images
 
@@ -104,32 +107,33 @@ def save_piv_figures(path):
 
   for ascii_file in results:
     print(ascii_file)
+    if ascii_file.find('result') + 1:
 
-    name, number, ext = ascii_file.split('.')
-    
-    # Display result as a matplotlib figure
-    # fig, ax = plt.subplots(1, 2, figsize=(16,8))
-    fig, ax = plt.subplots(figsize=(8,8))
+      name, number, ext = ascii_file.split('.')
+      
+      # Display result as a matplotlib figure
+      # fig, ax = plt.subplots(1, 2, figsize=(16,8))
+      fig, ax = plt.subplots(figsize=(8,8))
 
-    flowfield = tools.display_vector_field(
-      input_dir + ascii_file, # file to read
-      ax=ax, scaling_factor=scaling_factor,
-      scale=5e6, # scale defines here the arrow length
-      width=0.0035, # width is the thickness of the arrow
-      on_img=False, # overlay on the image
-      # image_name='exp1_001_a.bmp',  
-      );
+      flowfield = tools.display_vector_field(
+        input_dir + ascii_file, # file to read
+        ax=ax, scaling_factor=scaling_factor,
+        scale=5e6, # scale defines here the arrow length
+        width=0.0035, # width is the thickness of the arrow
+        on_img=False, # overlay on the image
+        # image_name='exp1_001_a.bmp',  
+        );
 
-    number = process_img_number(number)
+      number = process_img_number(number)
 
-    # Save to file.
-    file_path = path + name + '.' + number + '.jpg'
-    print(file_path)
-    print('')
-    # print(type(flowfield[0]), file_path, number)
-    flowfield[0].savefig(file_path)
+      # Save to file.
+      file_path = path + name + '.' + number + '.jpg'
+      print(file_path)
+      print('')
+      # print(type(flowfield[0]), file_path, number)
+      flowfield[0].savefig(file_path)
 
-    plt.close(flowfield[0])
+      plt.close(flowfield[0])
 
 def img_to_mp4(img_array):
   """
