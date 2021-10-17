@@ -23,7 +23,10 @@ def read_cfd_images(path):
     # + 1 is required bc .find returns
     # position of string and -1 if not found
     if file.find('.jpg') + 1:
-      name, num, ext = file.split('.')
+      if cfg.params['crop']['crop']:
+        name, num, ext = file.split('.')
+      else:
+        name, num, frame, ext = file.split('.')
 
       if int(num) % 2 == 1:
 
@@ -47,6 +50,9 @@ def read_cfd_images(path):
 def read_piv_images(path):
   piv_images = []
 
+  print('IN FUNCTION: read_piv_images')
+  print(len(sorted(os.listdir(path))))
+  print(path)
   for file in sorted(os.listdir(path)):
     piv_images.append(
         Image.open(
@@ -95,6 +101,7 @@ def merge_images(cfd_images, piv_images):
   return merged_images
 
 def save_piv_figures(path):
+  print('IN FUNCTION: save_piv_figures')
   
   input_dir = path + '/data/results/'
   path = path + '/img/piv/'
@@ -103,11 +110,13 @@ def save_piv_figures(path):
 
   results = sorted(os.listdir(input_dir))
 
+  print(len(results))
   scaling_factor = 50
 
   for ascii_file in results:
     print(ascii_file)
-    if ascii_file.find('result') + 1:
+    # This can be a terrible bug
+    if ascii_file.find('test') + 1:
 
       name, number, ext = ascii_file.split('.')
       
@@ -134,7 +143,8 @@ def save_piv_figures(path):
       flowfield[0].savefig(file_path)
 
       plt.close(flowfield[0])
-
+    else:
+      print(ascii_file, ' not found.')
 def img_to_mp4(img_array):
   """
       Make video from array of images. 
