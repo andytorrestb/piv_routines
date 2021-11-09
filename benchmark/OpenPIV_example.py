@@ -9,9 +9,9 @@ import imageio
 frame_a  = tools.imread( 'Middles_image_00093.png' )
 frame_b  = tools.imread( 'Middles_image_00093.png')
 
-winsize = 32 # pixels, interrogation window size in frame A
-searchsize = 38  # pixels, search area size in frame B
-overlap = 17 # pixels, 50% overlap
+winsize = 16 # pixels, interrogation window size in frame A
+searchsize = 24  # pixels, search area size in frame B
+overlap = 15 # pixels, 50% overlap
 dt = 0.02 # sec, time interval between the two frames
 
  
