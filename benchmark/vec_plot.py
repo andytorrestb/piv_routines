@@ -319,7 +319,7 @@ def contour(data, parameter, figure):
         ax.set_ylim(ax.get_ylim()[::-1])
 
     # description to the contour lines
-    cb.ax.set_ylabel('Velocity [m/s]')
+    cb.ax.set_ylabel('Velocity [pixel/s]')
 
     # labels for the axes
     ax.set_xlabel('x-position')
