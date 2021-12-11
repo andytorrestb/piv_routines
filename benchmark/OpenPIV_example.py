@@ -47,12 +47,12 @@ u2, v2 = filters.replace_outliers(
 # convert x,y to mm
 # convert u,v to mm/sec
 
-x, y, u3, v3 = scaling.uniform(
+x0, y0, u3, v3 = scaling.uniform(
     x, y, u2, v2,
     scaling_factor = 96.52,  # 96.52 pixels/millimeter
 )
 
 # 0,0 shall be bottom left, positive rotation rate is counterclockwise
-x, y, u0, v0 = tools.transform_coordinates(x, y, u3, v3)
+x1, y1, u4, v4 = tools.transform_coordinates(x, y, u3, v3)
 
-tools.save(x, y, u0, v0, mask, 'OpenPIV_data_img_pair.txt' )
+tools.save(x, y, u4, v4, mask, 'OpenPIV_data_img_pair.txt' )
