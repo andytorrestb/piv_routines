@@ -1,2 +1,2 @@
 # piv_tools
-Scripts written to speed up creation and analysis of PIV data using OpenPIV
+Scripts written to support the creation and analysis of PIV data using OpenPIV
