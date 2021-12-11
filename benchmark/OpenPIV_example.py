@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 
 import imageio
 
-frame_a  = tools.imread( 'Middles_image_00093.png' )
-frame_b  = tools.imread( 'Middles_image_00093.png')
+frame_a  = tools.imread( 'exp1_001_a.bmp' )
+frame_b  = tools.imread( 'exp1_001_b.bmp')
 
 winsize = 16 # pixels, interrogation window size in frame A
 searchsize = 24  # pixels, search area size in frame B
@@ -47,12 +47,12 @@ u2, v2 = filters.replace_outliers(
 # convert x,y to mm
 # convert u,v to mm/sec
 
-# x, y, u3, v3 = scaling.uniform(
-#     x, y, u2, v2,
-#     scaling_factor = 96.52,  # 96.52 pixels/millimeter
-# )
+x, y, u3, v3 = scaling.uniform(
+    x, y, u2, v2,
+    scaling_factor = 96.52,  # 96.52 pixels/millimeter
+)
 
 # 0,0 shall be bottom left, positive rotation rate is counterclockwise
-x, y, u0, v0 = tools.transform_coordinates(x, y, u0, v0)
+x, y, u0, v0 = tools.transform_coordinates(x, y, u3, v3)
 
 tools.save(x, y, u0, v0, mask, 'OpenPIV_data_img_pair.txt' )
