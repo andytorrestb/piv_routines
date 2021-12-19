@@ -12,6 +12,7 @@ import imageio
 ground_truth,cv,x_1,y_1,U_par,V_par,par_diam1,par_int1,x_2,y_2,par_diam2,par_int2 = synImg.create_synimage_parameters(
   None,[0,1],[0,1],[256,256],dt=0.0025)
 
+# Produce synthetic data
 frame_a  = synImg.generate_particle_image(256, 256, x_1, y_1, par_diam1, par_int1,16)
 frame_b  = synImg.generate_particle_image(256, 256, x_2, y_2, par_diam2, par_int2,16)
 
@@ -28,7 +29,6 @@ searchsize = 24  # pixels, search area size in frame B
 overlap = 15 # pixels, 50% overlap
 dt = 0.0025 # sec, time interval between the two frames
 
- 
 u0, v0, sig2noise = pyprocess.extended_search_area_piv(
     frame_a.astype(np.int32),
     frame_b.astype(np.int32),
@@ -70,3 +70,5 @@ x0, y0, u3, v3 = scaling.uniform(
 x1, y1, u4, v4 = tools.transform_coordinates(x, y, u3, v3)
 
 tools.save(x, y, u4, v4, mask, 'OpenPIV_syn_img_pair.txt' )
+
+print(x1, y1, u4, v4)
