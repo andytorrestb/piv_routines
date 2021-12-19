@@ -2,16 +2,26 @@ from openpiv import tools, pyprocess, validation, filters, scaling
 import synimagegen as synImg
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 # %matplotlib inline
 
 import imageio
 
-ground_truth,cv,x_1,y_1,U_par,V_par,par_diam1,par_int1,x_2,y_2,par_diam2,par_int2 = synImg.create_synimage_parameters(None,[0,1],[0,1],[256,256],dt=0.0025)
-
+# Produce synthetic data parameters
+ground_truth,cv,x_1,y_1,U_par,V_par,par_diam1,par_int1,x_2,y_2,par_diam2,par_int2 = synImg.create_synimage_parameters(
+  None,[0,1],[0,1],[256,256],dt=0.0025)
 
 frame_a  = synImg.generate_particle_image(256, 256, x_1, y_1, par_diam1, par_int1,16)
 frame_b  = synImg.generate_particle_image(256, 256, x_2, y_2, par_diam2, par_int2,16)
+
+
+sX, sY, sU, sV = ground_truth.create_syn_quiver(4)
+print(type(sX), type(sY), type(sU), type(sV))
+print(sX.shape, sY.shape, sU.shape, sV.shape)
+synData = pd.DataFrame({"x": 256 * sX,"y": 256 * sY, "u": [sU], "v": [sV]})
+synData.to_csv('syn_data.csv')
+# print(256 * sX, 256 * sY, sU, sV)
 
 winsize = 16 # pixels, interrogation window size in frame A
 searchsize = 24  # pixels, search area size in frame B
