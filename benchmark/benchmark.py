@@ -16,11 +16,28 @@ ground_truth,cv,x_1,y_1,U_par,V_par,par_diam1,par_int1,x_2,y_2,par_diam2,par_int
 frame_a  = synImg.generate_particle_image(256, 256, x_1, y_1, par_diam1, par_int1,16)
 frame_b  = synImg.generate_particle_image(256, 256, x_2, y_2, par_diam2, par_int2,16)
 
-
 sX, sY, sU, sV = ground_truth.create_syn_quiver(4)
 print(type(sX), type(sY), type(sU), type(sV))
 print(sX.shape, sY.shape, sU.shape, sV.shape)
-synData = pd.DataFrame({"x": 256 * sX,"y": 256 * sY, "u": [sU], "v": [sV]})
+
+synData = pd.DataFrame(columns = ['x', 'y', 'u', 'v'])
+# synData.columns = ['x', 'y', 'u', 'v']
+for i, val in np.ndenumerate(sU):
+  # print(type(sX))
+  row = i[0]
+  col = i[1]
+
+  synData = synData.append({
+    'x': sX[row, col],
+    'y': sY[row, col],
+    'u': sU[row, col],
+    'v': sV[row, col]
+    }, ignore_index = True)
+  print('row =', row, 'col =', col)
+  print(sU[i[0], i[1]])
+  print(i, val)
+  print()
+
 synData.to_csv('syn_data.csv')
 # print(256 * sX, 256 * sY, sU, sV)
 
