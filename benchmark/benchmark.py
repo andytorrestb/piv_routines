@@ -4,8 +4,6 @@ import synimagegen as synImg
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-# %matplotlib inline
-
 import imageio
 
 # Produce synthetic data parameters
@@ -88,4 +86,4 @@ x1, y1, u4, v4 = tools.transform_coordinates(x, y, u3, v3)
 
 tools.save(x, y, u4, v4, mask, 'OpenPIV_syn_img_pair.txt' )
 
-print(x1, y1, u4, v4)
+# print(x1, y1, u4, v4)
