@@ -8,6 +8,7 @@ __pycache__/
 
 # Data files
 .csv
+*.csv
 
 # MAC OS Files
 .DS_Store
