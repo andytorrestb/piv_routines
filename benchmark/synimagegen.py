@@ -161,7 +161,6 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
     """
 
     #Data processing
-    
     if not path == 'None':
         f = open(path,'r')
         data = f.readlines()
@@ -179,7 +178,6 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
         cff = continuous_flow_field(None)
     
     #Creating syn particles
-    
     num_of_par = int(image_size[0]*image_size[1]*den)
     num_of_lost_pairs = num_of_par*(per_loss_pairs/100)
     x_1 = np.random.uniform(x_bound[0]*0.8,x_bound[1]*1.2,num_of_par)
@@ -224,12 +222,10 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
     xy_2 = np.transpose(np.vstack((x_2,y_2,par_diam2,par_int2)))
     
     #Choosing particles in boundary area
-    
     bounded_xy_1 = np.asarray([xy for xy in xy_1 if x_bound[1]>=xy[0]>=x_bound[0] and y_bound[1]>=xy[1]>=y_bound[0]])
     bounded_xy_2 = np.asarray([xy for xy in xy_2 if x_bound[1]>=xy[0]>=x_bound[0] and y_bound[1]>=xy[1]>=y_bound[0]])
     
     #Tranforming coordinates into pixels
-    
     x1 = ((bounded_xy_1[:,0]-x_bound[0])/(x_bound[1]-x_bound[0]))*image_size[0]
     y1 = ((bounded_xy_1[:,1]-y_bound[0])/(y_bound[1]-y_bound[0]))*image_size[1]
 
