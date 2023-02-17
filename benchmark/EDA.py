@@ -4,6 +4,39 @@ import inspect
 import cv2 as cv
 import numpy as np
 
+def compare_summary_stats(data):
+  print()
+  print('======================================================== Summary Statistics =================================================================')
+  for dataset in data:
+    data[dataset] = data[dataset].drop(['flags', 'mask'], axis = 1)
+    print_summary_stats(data[dataset], dataset)
+  print('=============================================================================================================================================')
+  print()
+
+def print_summary_stats(data, title):
+  print(title, end = "|")
+  for feature in data:
+    p = 3
+    mean = round(data[feature].mean(), p)
+    if abs(mean) < 10:
+      mean = str.format('{0:1.5f}', round(data[feature].mean(), p))
+    elif abs(mean) < 100:
+      mean = str.format('{0:2.4f}', round(data[feature].mean(), p))
+    else:
+      mean = str.format('{0:1.1e}', round(data[feature].mean(), p))
+    std = round(data[feature].std(), p)
+    # std = str.format('{0:.3f}', round(data[feature].std(), p))
+
+    if abs(std) < 10:
+      std = str.format('{0:1.5f}', round(data[feature].std(), p))
+    elif abs(std) < 100:
+      std = str.format('{0:2.4f}', round(data[feature].std(), p))
+    else:
+      std = str.format('{0:1.1e}', round(data[feature].std(), p))
+    print(feature + ':', 'mean =', mean, 'std =', std, end = "|")
+
+  print()
+
 # Graph histogram of data into a single subplot for visual comparisons.
 def histogram_compare(data):
     # Graph all the features of a given data set into a single row.
