@@ -68,7 +68,10 @@ class continuous_flow_field:
         
     def create_syn_quiver(self,number_of_grid_points,path=None):
     	#return and save a synthetic flow map 
-        X,Y = np.meshgrid(np.linspace(0,1,number_of_grid_points),np.linspace(0,1,number_of_grid_points))
+        X,Y = np.meshgrid(
+            np.linspace(self.x_bound[0],self.x_bound[1],number_of_grid_points),
+            np.linspace(self.y_bound[0],self.y_bound[1],number_of_grid_points)
+        )
         U = np.zeros(X.shape)
         V = np.zeros(Y.shape)
         for r in range(X.shape[0]):
@@ -181,6 +184,10 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
         cff = continuous_flow_field(data,inter=True)
     else:
         cff = continuous_flow_field(None)
+
+    #Saving bounds of image
+    cff.x_bound = x_bound
+    cff.y_bound = y_bound
     
     #Creating syn particles
     num_of_par = int(image_size[0]*image_size[1]*den)
