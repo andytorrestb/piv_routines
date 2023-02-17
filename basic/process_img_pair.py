@@ -123,6 +123,7 @@ x, y, u3, v3 = tools.transform_coordinates(x, y, u3, v3)
 
 # Save file names
 fname = config.SAVE_RESULTS['fname']
+fname = 'results-' + fname
 results_txt = fname + '.txt'
 results_png = fname + '.png'
 
@@ -132,7 +133,8 @@ tools.save(results_txt, x, y, u3, v3, invalid_mask)
 # Plot results
 fig, ax = plt.subplots(figsize=(8,8))
 fig, ax = tools.display_vector_field(
-    results_txt,
+    # results_txt,
+    'edited-karman_16Hz_000_A.txt',
     ax=ax, scaling_factor=96.52,
     scale=config.DISPLAY_RESULTS['scale'], # scale defines here the arrow length
     width=config.DISPLAY_RESULTS['width'], # width is the thickness of the arrow
@@ -141,4 +143,4 @@ fig, ax = tools.display_vector_field(
 )
 
 # Save plot to as an image file. 
-fig.savefig(results_png)
+fig.savefig(path_to_dir + 'original-' +results_png) 
