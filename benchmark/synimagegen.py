@@ -76,7 +76,7 @@ class continuous_flow_field:
         m = np.sqrt(np.power(U, 2) + np.power(V, 2))
         fig = pl.quiver(X, Y, U, V,m,clim=[1.5,m.max()],scale=100,width=0.002,headwidth=6,minshaft=2)
         cb = pl.colorbar(fig)
-        cb.set_clim(vmin=1.5, vmax=m.max())
+        cb.mappable.set_clim(vmin=1.5, vmax=m.max())
     
         
         if not path:
