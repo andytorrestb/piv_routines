@@ -233,7 +233,7 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
     y2 = ((bounded_xy_2[:,1]-y_bound[0])/(y_bound[1]-y_bound[0]))*image_size[1]
     
     conversion_value = min((x_bound[1]-x_bound[0])/image_size[0],(y_bound[1]-y_bound[0])/image_size[1])/dt
-    
+
     return cff,conversion_value,x1,y1,bounded_xy_1[:,2],bounded_xy_1[:,3],bounded_xy_1[:,4],bounded_xy_1[:,5],x2,y2,bounded_xy_2[:,2],bounded_xy_2[:,3]
 
 
