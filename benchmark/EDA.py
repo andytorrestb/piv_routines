@@ -42,7 +42,7 @@ def histogram_compare(data):
     # Graph all the features of a given data set into a single row.
     # Save to .png files. 
     for dataset in data:
-        histogram_features(data[dataset], dataset)
+        histogram_features(data[dataset].drop(['flags', 'mask'], axis = 1), dataset)
 
     # Load images into an array.
     img_arr = []
