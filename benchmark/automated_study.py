@@ -19,6 +19,13 @@ to prototype this sort of process.
 # ||                         Section 0: Import Relevant Libraries                ||
 # =================================================================================
 import logging
+import os
+import pandas as pd
+
+from openpiv import tools
+
+import synimagegen as synImg
+import automated_study_config as config
 
 # =================================================================================
 # ||                         Section 1: Configure Logger                         ||
@@ -33,12 +40,50 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(file_handler)
 
-# =================================================================================
-# ||                      Section 2: Generate Synthetic Data                     ||
-# =================================================================================
+logger.info('========================== NEW RUN STARTED ==========================')
 
 # =================================================================================
-# ||                           Section 3: Process Images                         ||
+# ||                      Section 2: Load Ground Truth Data                      ||
+# =================================================================================
+
+# Load configuration data.
+path_to_dir = config.INPUT_DATA['path_to_dir']
+file_a = config.INPUT_DATA['file_a']
+file_b = config.INPUT_DATA['file_b']
+file_results = config.INPUT_DATA['results']
+
+# Fix string format for directory if necessary.
+if not path_to_dir[-1] == '/':
+    path_to_dir = path_to_dir + '/'
+
+# Check if folder contaning data exists.
+if not os.path.exists(path_to_dir):
+    logger.error(" " + path_to_dir + ': Path to directory does not exist.')
+    exit()
+
+# Check if data to be analyzed exists.
+try:
+    frame_a  = tools.imread(path_to_dir + file_a)
+except FileNotFoundError:
+    logger.error(' FileNotFoundError: ' + path_to_dir + file_b + '  is not found')
+    exit()
+try:
+    frame_b  = tools.imread(path_to_dir + file_b)
+except FileNotFoundError:
+    logger.error(' FileNotFoundError: ' + path_to_dir + file_b + '  is not found')
+    exit()
+
+try:
+    ground_truth  = pd.read_csv(path_to_dir + file_results, sep = '\t',)
+except FileNotFoundError:
+    logger.error(' FileNotFoundError: ' + path_to_dir + file_results + '  is not found')
+    exit()
+
+# Log success.
+logger.info(' INFO: Succesfully read in ground truth results and images.')
+
+# =================================================================================
+# ||                          Section 3: Run PIV Analysis                        ||
 # =================================================================================
 
 # =================================================================================
