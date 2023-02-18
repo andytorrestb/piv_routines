@@ -18,12 +18,16 @@ to prototype this sort of process.
 # =================================================================================
 # ||                         Section 0: Import Relevant Libraries                ||
 # =================================================================================
+
+# Standard python utilities.
 import logging
 import os
 import pandas as pd
 
+# PIV Specific libraries.
 from openpiv import tools
 
+# Locally included Python files.
 import synimagegen as synImg
 import automated_study_config as config
 
