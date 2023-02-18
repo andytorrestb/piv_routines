@@ -65,7 +65,8 @@ if not os.path.exists(path_to_dir):
     logger.error(" " + path_to_dir + ': Path to directory does not exist.')
     exit()
 
-# Check if data to be analyzed exists.
+# Check if files for data to be analyzed exists.
+# load in data if they do.
 try:
     frame_a  = tools.imread(path_to_dir + file_a)
 except FileNotFoundError:
