@@ -46,6 +46,12 @@ logger.addHandler(file_handler)
 
 logger.info('========================== NEW RUN STARTED ==========================')
 
+# Create directory to store results.
+# TO-DO: create unique folder and log file for each run.
+results_path = os.getcwd() + '/results'
+if not os.path.exists(results_path):
+    os.makedirs(results_path)
+
 # =================================================================================
 # ||                      Section 2: Load Ground Truth Data                      ||
 # =================================================================================
