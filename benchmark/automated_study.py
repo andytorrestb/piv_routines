@@ -33,8 +33,6 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(file_handler)
 
-print(logger)
-
 # =================================================================================
 # ||                      Section 2: Generate Synthetic Data                     ||
 # =================================================================================
