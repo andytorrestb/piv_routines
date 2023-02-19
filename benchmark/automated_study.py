@@ -90,6 +90,10 @@ except FileNotFoundError:
     logger.error(' FileNotFoundError: ' + path_to_dir + file_results + '  is not found')
     exit()
 
+# Use ground truth data to display and save a vector plot of the solution data.
+cff = synImg.continuous_flow_field(ground_truth, inter = True, img = frame_a)
+cff.create_syn_quiver(50, path = results_path+'/')
+
 # Log success.
 logger.info(' INFO: Succesfully read in ground truth results and images.')
 

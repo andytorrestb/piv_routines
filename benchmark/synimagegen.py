@@ -29,15 +29,25 @@ import matplotlib.cm as cm
 from PIL import Image
 
 class continuous_flow_field:
-    def __init__(self,data,inter=False):
+    def __init__(self,data,inter=False, img = None):
         '''
         Checks if the continous flow should be created from a set of data points
         if so it interpolates them for a continuous flow field
         '''
+        # Get bound information if building solution from a set of results and image.
+        if data is not None:
+            print(data.shape)
+            self.x_bound = (data['x'].min(), data['x'].max())
+            self.y_bound = (data['y'].min(), data['y'].max())
+            self.img_w = img.shape[1]
+            self.img_h = img.shape[0]
+            print(self.img_w, self.img_h)
+
+
         self.inter = inter
         if inter:
-            self.f_U = scipy.interpolate.interp2d(data[:,0],data[:,1],data[:,2])
-            self.f_V = scipy.interpolate.interp2d(data[:,0],data[:,1],data[:,3])
+            self.f_U = scipy.interpolate.interp2d(data['x'],data['y'],data['u'])
+            self.f_V = scipy.interpolate.interp2d(data['x'],data['y'],data['v'])
    
     
     '''
@@ -82,11 +92,20 @@ class continuous_flow_field:
         
 
         m = np.sqrt(np.power(U, 2) + np.power(V, 2))
-        fig = pl.quiver(X, Y, U, V,m,clim=[1.5,m.max()],scale=100,width=0.002,headwidth=6,minshaft=2)
+        figsize = int(self.img_w/250), int(self.img_h/250)
+        pl.figure(figsize = figsize)
+        pl.tight_layout()
+        fig = pl.quiver(X, Y, U, V,m,
+                clim=[m.min(),m.max()],
+                scale=0.25,width=0.002,
+                headwidth=6,
+                minshaft=2,
+                scale_units = 'dots',
+            )
+
         cb = pl.colorbar(fig)
         cb.mappable.set_clim(vmin=1.5, vmax=m.max())
     
-        
         if not path:
             pl.savefig('syn_quiver.png', dpi=400)
             pl.close()
