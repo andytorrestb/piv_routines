@@ -31,6 +31,7 @@ from openpiv import tools, pyprocess
 # Locally included Python files.
 import synimagegen as synImg
 import automated_study_config as config
+import study_util as util
 
 # =================================================================================
 # ||                         Section 1: Configure Logger                         ||
@@ -136,9 +137,13 @@ x, y = pyprocess.get_coordinates(
     overlap=overlap,
 )
 
-# Save results as a text file.
-results_0_txt = results_path + '/results_0.txt'
-tools.save(results_0_txt, x, y, u0, v0)
+# Save and display results.
+util.save_results(
+    results_path,
+    x, y, u0, v0,
+    path_to_dir,
+    file_a, '0'
+)
 
 # Display results as a vector field and save image file.
 results_0_img = results_path + '/results_0.png'
@@ -148,7 +153,6 @@ fig0, ax0 = tools.display_vector_field(
         image_name = path_to_dir + file_a,
     )
 
-fig0.savefig(results_0_img)
 # =================================================================================
 # ||                       Section 4: Post-Process PIV Results                   ||
 # =================================================================================
