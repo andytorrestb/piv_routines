@@ -23,9 +23,10 @@ to prototype this sort of process.
 import logging
 import os
 import pandas as pd
+import numpy as np
 
 # PIV Specific libraries.
-from openpiv import tools
+from openpiv import tools, pyprocess
 
 # Locally included Python files.
 import synimagegen as synImg
@@ -101,6 +102,53 @@ logger.info(' INFO: Succesfully read in ground truth results and images.')
 # ||                          Section 3: Run PIV Analysis                        ||
 # =================================================================================
 
+# PIV Analysis Parameters
+
+# pixels, interrogation window size in frame A
+winsize = config.PIV_CROSS_CORR['winsize']
+
+# pixels, search area size in frame B
+searchsize = config.PIV_CROSS_CORR['searchsize']
+
+ # pixels, 50% overlap
+overlap = config.PIV_CROSS_CORR['overlap']
+
+ # sec, time interval between the two frames
+dt =config.PIV_CROSS_CORR['dt']
+
+# Initial processing, returns an initial component calculation
+# and signal to noise ratio for the velocity vector field.
+u0, v0, sig2noise = pyprocess.extended_search_area_piv(
+    frame_a.astype(np.int32),
+    frame_b.astype(np.int32),
+    window_size=winsize,
+    overlap=overlap,
+    dt=dt,
+    search_area_size=searchsize,
+    sig2noise_method=config.PIV_CROSS_CORR['sig2noise_method'],
+)
+
+# Compute the x, y coordinates of the centers of the interrogation windows.
+# Here, the origin (0, 0) is considered the top left corner of the image.
+x, y = pyprocess.get_coordinates(
+    image_size=frame_a.shape,
+    search_area_size=searchsize,
+    overlap=overlap,
+)
+
+# Save results as a text file.
+results_0_txt = results_path + '/results_0.txt'
+tools.save(results_0_txt, x, y, u0, v0)
+
+# Display results as a vector field and save image file.
+results_0_img = results_path + '/results_0.png'
+fig0, ax0 = tools.display_vector_field(
+        filename = results_0_txt,
+        on_img = True,
+        image_name = path_to_dir + file_a,
+    )
+
+fig0.savefig(results_0_img)
 # =================================================================================
 # ||                       Section 4: Post-Process PIV Results                   ||
 # =================================================================================
