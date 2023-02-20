@@ -26,7 +26,7 @@ import pandas as pd
 import numpy as np
 
 # PIV Specific libraries.
-from openpiv import tools, pyprocess
+from openpiv import tools, pyprocess, validation, filters, scaling
 
 # Locally included Python files.
 import synimagegen as synImg
@@ -145,17 +145,50 @@ util.save_results(
     file_a, '0'
 )
 
-# Display results as a vector field and save image file.
-results_0_img = results_path + '/results_0.png'
-fig0, ax0 = tools.display_vector_field(
-        filename = results_0_txt,
-        on_img = True,
-        image_name = path_to_dir + file_a,
-    )
+# TO-DO: Report statistical information about the results.
 
 # =================================================================================
 # ||                       Section 4: Post-Process PIV Results                   ||
 # =================================================================================
+
+# ID false data according to the signal to noise ratio.
+invalid_mask = validation.sig2noise_val(
+    sig2noise,
+    threshold = config.SIG2NOISE_VAL['threshold'],
+)
+
+# Replace outliers with mean data.
+u1, v1 = filters.replace_outliers(
+    u0, v0,
+    invalid_mask,
+    method=config.REPLACE_OUTLIERS['method'],
+    max_iter=config.REPLACE_OUTLIERS['max_iter'],
+    kernel_size=config.REPLACE_OUTLIERS['kernel_size'],
+)
+
+util.save_results(
+    results_path,
+    x, y, u1, v1,
+    path_to_dir,
+    file_a, '1'
+)
+
+# convert x,y to mm
+# convert u,v to mm/sec
+x, y, u2, v2 = scaling.uniform(
+    x, y, u1, v1,
+    scaling_factor = config.SCALE_UNIFORM['scaling_factor'],  # 96.52 pixels/millimeter
+)
+
+# 0,0 shall be bottom left, positive rotation rate is counterclockwise
+x, y, u3, v3 = tools.transform_coordinates(x, y, u2, v2)
+
+util.save_results(
+    results_path,
+    x, y, u2, v2,
+    path_to_dir,
+    file_a, '2'
+)
 
 # =================================================================================
 # ||                       Section 5: Data Cleaning of Results                   ||
