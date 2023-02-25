@@ -1,20 +1,20 @@
 INPUT_DATA = {
-    'path_to_dir':'../../openpiv-python-examples/test9/',
-    'file_a':'karman_16Hz_000_A.jpg',
-    'file_b':'karman_16Hz_000_B.jpg',
-    'results':'karman_16Hz_000_A.jpg.txt' 
+    'path_to_dir':'../../openpiv-python-examples/test16/',
+    'file_a':'exp1_001_b.bmp',
+    'file_b':'exp1_001_c.bmp',
+    'results':'exp1_001_b.txt' 
 }
 
 PIV_CROSS_CORR = {
     'winsize': 32,
-    'searchsize': 38,
-    'overlap': 17,
-    'dt': 0.02, 
+    'searchsize': 48,
+    'overlap': 16,
+    'dt': 1,
     'sig2noise_method':'peak2peak',
 }
 
 SIG2NOISE_VAL = {
-    'threshold': 1.05,
+    'threshold': 1.1,
 }
 
 REPLACE_OUTLIERS = {
@@ -24,7 +24,7 @@ REPLACE_OUTLIERS = {
 }
 
 SCALE_UNIFORM = {
-    'scaling_factor':96.52
+    'scaling_factor':1
 }
 
 DISPLAY_RESULTS = {
@@ -33,6 +33,6 @@ DISPLAY_RESULTS = {
     'on_img': True
 }
 
-SAVE_RESULTS = {
-    'fname': 'karman_16Hz_000'
-}
+# SAVE_RESULTS = {
+#     'fname': 'karman_16Hz_000'
+# }
