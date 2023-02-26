@@ -33,6 +33,7 @@ import synimagegen as synImg
 import automated_study_config as config
 import study_util as util
 import EDA
+import ParityPlot
 
 # =================================================================================
 # ||                         Section 1: Configure Logger                         ||
@@ -246,3 +247,4 @@ EDA.histogram_compare(data)
 # =================================================================================
 # ||                   Section 6: Benchmarking Analysis of Results               ||
 # =================================================================================
+ParityPlot.parityPlot(ground_truth, results)
