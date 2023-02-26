@@ -32,6 +32,7 @@ from openpiv import tools, pyprocess, validation, filters, scaling
 import synimagegen as synImg
 import automated_study_config as config
 import study_util as util
+import EDA
 
 # =================================================================================
 # ||                         Section 1: Configure Logger                         ||
@@ -240,6 +241,7 @@ elif nrows_grnd < nrows_piv:
 # =================================================================================
 # ||                    Section 5: Comparative Analysis of Results               ||
 # =================================================================================
+EDA.histogram_compare(data)
 
 # =================================================================================
 # ||                   Section 6: Benchmarking Analysis of Results               ||
