@@ -192,9 +192,9 @@ x, y, u3, v3 = tools.transform_coordinates(x, y, u2, v2)
 
 util.save_results(
     results_path,
-    x, y, u2, v2,
+    x, y, u3, v3,
     path_to_dir,
-    file_a, '2'
+    file_a, '3'
 )
 
 # =================================================================================
