@@ -200,6 +200,42 @@ util.save_results(
 # =================================================================================
 # ||                       Section 5: Data Cleaning of Results                   ||
 # =================================================================================
+print(ground_truth)
+# print(pd.read_csv('results/results_2.txt', sep ='\t'))
+
+results = pd.read_csv('results/results_2.txt', sep ='\t')
+results.columns = ['x', 'y', 'u', 'v', 'flags', 'mask']
+print(results)
+
+data = {'Ground-Truth': ground_truth, 'PIV-Analysis': results}
+
+# Remove unneeded columns of data.
+cols_to_del = ['flags', 'mask']
+for dataset in data:
+    for col in cols_to_del:
+        if col in data[dataset].columns:
+            data[dataset] = data[dataset].drop([col], axis = 1)
+
+# Remove random data points to correct mismatch in the number of data points.
+nrows_grnd = ground_truth.shape[0]
+nrows_piv = results.shape[0]
+
+if nrows_grnd > nrows_piv:
+    input('breakpoint 1')
+    remove_n = nrows_grnd - nrows_piv
+    print(remove_n)
+    drop_indices = np.random.choice(ground_truth.index, remove_n, replace=False)
+    data['Ground-Truth'] = data['Ground-Truth'].drop(drop_indices)
+    # ground_truth = ground_truth.drop(drop_indices)
+    print(ground_truth.shape)
+elif nrows_grnd < nrows_piv:
+    input('breakpoint 2')
+    remove_n = nrows_piv - nrows_piv
+    drop_indices = np.random.choice(results.index, remove_n, replace=False)
+    # results = results.drop(drop_indices)
+    data['PIV-Analysis'] = data['PIV-Analysis'].drop(drop_indices)
+
+# data['PIV-Analysis']= sort.nearestNeighbors(data['Ground-Truth'], data['PIV-Analysis'])
 
 # =================================================================================
 # ||                    Section 5: Comparative Analysis of Results               ||
