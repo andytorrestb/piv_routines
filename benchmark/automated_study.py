@@ -177,7 +177,14 @@ util.save_results(
 # convert u,v to mm/sec
 x, y, u2, v2 = scaling.uniform(
     x, y, u1, v1,
-    scaling_factor = config.SCALE_UNIFORM['scaling_factor'],  # 96.52 pixels/millimeter
+    scaling_factor = config.SCALE_UNIFORM['scaling_factor']
+)
+
+util.save_results(
+    results_path,
+    x, y, u2, v2,
+    path_to_dir,
+    file_a, '2'
 )
 
 # 0,0 shall be bottom left, positive rotation rate is counterclockwise
