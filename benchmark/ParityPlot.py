@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
 
 def mag(data):
   mag = np.sqrt(
@@ -60,13 +61,13 @@ def parityPlot(data1, data2):
     mean_abs_err = np.mean(np.abs(x-y))
     rmse = np.sqrt(np.mean((x-y)**2))
     rmse_std = rmse / np.std(y)
-  #   z = np.polyfit(x,y, 1)
-  #   y_hat = np.poly1d(z)(x)
+    z = np.polyfit(x,y, 1)
+    y_hat = np.poly1d(z)(x)
 
-  #   text = f"$\: \: Mean \: Absolute \: Error \: (MAE) = {mean_abs_err:0.3f}$ \n $ Root \: Mean \: Square \: Error \: (RMSE) = {rmse:0.3f}$ \n $ RMSE \: / \: Std(y) = {rmse_std :0.3f}$ \n $R^2 = {r2_score(y,y_hat):0.3f}$"
+    text = f"$\: \: Mean \: Absolute \: Error \: (MAE) = {mean_abs_err:0.3f}$ \n $ Root \: Mean \: Square \: Error \: (RMSE) = {rmse:0.3f}$ \n $ RMSE \: / \: Std(y) = {rmse_std :0.3f}$ \n $R^2 = {r2_score(y,x):0.3f}$"
 
-  #   plt.gca().text(0.05, 0.95, text,transform=plt.gca().transAxes,
-  #       fontsize=14, verticalalignment='top')
+    plt.gca().text(0.05, 0.95, text,transform=plt.gca().transAxes,
+        fontsize=14, verticalalignment='top')
 
     # Title and labels
     plt.title("Parity Plot " + feature, fontdict=font_axis_publish)
