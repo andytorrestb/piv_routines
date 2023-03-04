@@ -24,9 +24,14 @@ import logging
 import os
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # PIV Specific libraries.
-from openpiv import tools, pyprocess, validation, filters, scaling
+from openpiv import pyprocess, validation, filters, scaling
+
+# PIV Libraries stored as local files
+import tools
 
 # Locally included Python files.
 import synimagegen as synImg
@@ -152,6 +157,11 @@ util.save_results(
 # =================================================================================
 # ||                       Section 4: Post-Process PIV Results                   ||
 # =================================================================================
+
+# Display histogram of sig2noise data, save image of graph.
+fig, ax = plt.subplots(1, 1, figsize = (30, 5))
+sns.histplot(x = sig2noise.flatten())
+fig.savefig('results/sig2noise.png', dpi = 300, bbox_inches='tight')
 
 # ID false data according to the signal to noise ratio.
 invalid_mask = validation.sig2noise_val(
