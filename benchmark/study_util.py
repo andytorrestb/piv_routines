@@ -1,4 +1,5 @@
-from openpiv import tools
+# from openpiv import tools
+import tools
 
 def save_results(results_path, x, y, u, v, path_to_dir, img_file, id):
     # Save results as a text file.
@@ -11,6 +12,7 @@ def save_results(results_path, x, y, u, v, path_to_dir, img_file, id):
             filename = results_txt,
             on_img = True,
             image_name = path_to_dir + img_file,
+            show_plot = False,
         )
 
     fig.savefig(results_img)
