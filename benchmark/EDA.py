@@ -76,7 +76,7 @@ def histogram_compare(data):
 # Helper function for histogram_compare. 
 def histogram_features(data, title):
     print(title)
-    input()
+    # input()
     # Instantanciate the figure object.
     fig, ax = plt.subplots(1, len(data.columns), figsize = (30, 5))
 
