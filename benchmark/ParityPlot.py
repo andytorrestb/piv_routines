@@ -2,26 +2,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
-def mag(data):
-  mag = np.sqrt(
-      np.square(data['u']) + np.square(data['v']))
+# def mag(data):
+#   mag = np.sqrt(
+#       np.square(data['u']) + np.square(data['v']))
   
-  for point in data.iterrows():
-    print(point)
-    # print(data[point]['u'], point['v'], mag)
-  return mag
-
+#   for point in data.iterrows():
+#     # print(point)
+#     # print(data[point]['u'], point['v'], mag)
+#   return mag
 
 def parityPlot(data1, data2):
-  print(data1.shape, data2.shape)
+  # print(data1.shape, data2.shape)
   # Font for figure for publishing
   font_axis_publish = {
         'color':  'black',
         'weight': 'bold',
         'size': 22,
         }
+  stats = {}
   for feature in data1.columns:
-    print(feature)
+    # print(feature)
 #   y = mag(data1)
 #   x = mag(data2)
 
@@ -44,7 +44,7 @@ def parityPlot(data1, data2):
 
 
     bounds = (min(x.min(), y.min()) - int(0.1 * y.min()), max(x.max(), y.max())+ int(0.1 * y.max()))
-    print('bounds:', bounds)
+    # print('bounds:', bounds)
 
     # Reset the limits
     ax = plt.gca()
@@ -61,13 +61,18 @@ def parityPlot(data1, data2):
     mean_abs_err = np.mean(np.abs(x-y))
     rmse = np.sqrt(np.mean((x-y)**2))
     rmse_std = rmse / np.std(y)
-    z = np.polyfit(x,y, 1)
-    y_hat = np.poly1d(z)(x)
+    # z = np.polyfit(x,y, 1)
+    # y_hat = np.poly1d(z)(x)
 
-    text = f"$\: \: Mean \: Absolute \: Error \: (MAE) = {mean_abs_err:0.3f}$ \n $ Root \: Mean \: Square \: Error \: (RMSE) = {rmse:0.3f}$ \n $ RMSE \: / \: Std(y) = {rmse_std :0.3f}$ \n $R^2 = {r2_score(y,x):0.3f}$"
+    p = 3
+    # stats[feature] = [round(mean_abs_err, p), round(rmse, p), round(r2_score(y,x), p)]
 
-    plt.gca().text(0.05, 0.95, text,transform=plt.gca().transAxes,
-        fontsize=14, verticalalignment='top')
+    # text = f"$\: \: Mean \: Absolute \: Error \: (MAE) = {mean_abs_err:0.3f}$ \n $ Root \: Mean \: Square \: Error \: (RMSE) = {rmse:0.3f}$ \n $ RMSE \: / \: Std(y) = {rmse_std :0.3f}$ \n $R^2 = {r2_score(y,x):0.3f}$"
+
+
+
+    # plt.gca().text(0.05, 0.95, text,transform=plt.gca().transAxes,
+    #     fontsize=14, verticalalignment='top')
 
     # Title and labels
     plt.title("Parity Plot " + feature, fontdict=font_axis_publish)
@@ -76,3 +81,5 @@ def parityPlot(data1, data2):
 
     # Save the figure into 300 dpi
     fignow.savefig("results/parityplot_"+ feature +"_vals.png",format = "png",dpi=300,bbox_inches='tight')
+
+  return stats
