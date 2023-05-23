@@ -26,6 +26,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sys
 
 # PIV Specific libraries.
 from openpiv import pyprocess, validation, filters, scaling
@@ -34,7 +35,7 @@ from openpiv import pyprocess, validation, filters, scaling
 import tools
 
 # Locally included Python files.
-# import synimagegen as synImg
+import synimagegen as synImg
 import automated_study_config as config
 import study_util as util
 import EDA
@@ -57,7 +58,7 @@ logger.info('========================== NEW RUN STARTED ========================
 
 # Create directory to store results.
 # TO-DO: create unique folder and log file for each run.
-results_path = os.getcwd() + '/results'
+results_path = os.getcwd() + '/' + sys.argv[1]
 if not os.path.exists(results_path):
     os.makedirs(results_path)
 
@@ -100,8 +101,8 @@ except FileNotFoundError:
     exit()
 
 # Use ground truth data to display and save a vector plot of the solution data.
-# cff = synImg.continuous_flow_field(ground_truth, inter = True, img = frame_a)
-# cff.create_syn_quiver(50, path = results_path+'/')
+cff = synImg.continuous_flow_field(ground_truth, inter = True, img = frame_a)
+cff.create_syn_quiver(50, path = results_path+'/')
 
 # Log success.
 logger.info(' INFO: Succesfully read in ground truth results and images.')
@@ -161,18 +162,13 @@ util.save_results(
 # Display histogram of sig2noise data, save image of graph.
 fig, ax = plt.subplots(1, 1, figsize = (30, 5))
 sns.histplot(x = sig2noise.flatten())
-fig.savefig('results/sig2noise.png', dpi = 300, bbox_inches='tight')
+fig.savefig(results_path + '/sig2noise.png', dpi = 300, bbox_inches='tight')
 
 # ID false data according to the signal to noise ratio.
-# invalid_mask = validation.sig2noise_val(
-#     sig2noise,
-#     threshold = config.SIG2NOISE_VAL['threshold'],
-# )
-
-invalid_mask = validation.global_val(
-    u0, v0,
-    (-800, 800),
-    (-800, 800)
+invalid_mask = validation.sig2noise_val(
+    sig2noise,
+    threshold = config.SIG2NOISE_VAL['threshold'],
+    # threshold = float(sys.argv[1])
 )
 
 # Replace outliers with mean data.
@@ -181,7 +177,8 @@ u1, v1 = filters.replace_outliers(
     invalid_mask,
     method=config.REPLACE_OUTLIERS['method'],
     max_iter=config.REPLACE_OUTLIERS['max_iter'],
-    kernel_size=config.REPLACE_OUTLIERS['kernel_size'],
+    # kernel_size=config.REPLACE_OUTLIERS['kernel_size'],
+    kernel_size=sys.argv[1]
 )
 
 util.save_results(
@@ -220,8 +217,8 @@ util.save_results(
 # =================================================================================
 print(ground_truth)
 # print(pd.read_csv('results/results_2.txt', sep ='\t'))
-print("BRO WTFFFFFFFF")
-results = pd.read_csv('results/OpenPIV_syn_img_pair-NEW.txt', sep ='\t')
+
+results = pd.read_csv(results_path + '/results_2.txt', sep ='\t')
 results.columns = ['x', 'y', 'u', 'v', 'flags', 'mask']
 print(results)
 
@@ -258,9 +255,24 @@ elif nrows_grnd < nrows_piv:
 # =================================================================================
 # ||                    Section 5: Comparative Analysis of Results               ||
 # =================================================================================
-# EDA.histogram_compare(data)
+EDA.histogram_compare(data)
 
 # =================================================================================
 # ||                   Section 6: Benchmarking Analysis of Results               ||
 # =================================================================================
-ParityPlot.parityPlot(ground_truth, results)
+stats = ParityPlot.parityPlot(ground_truth, results)
+stats_str = ''
+for stat in stats:
+    # print(type(stats[stat]))
+
+    for i in range(len(stats[stat])):
+        if len(stats_str) == 0:
+           stats_str = stats_str + str(stats[stat][i]) 
+        else:
+            stats_str = stats_str + ',' + str(stats[stat][i])
+    
+print(stats_str)
+
+# Write stats to csv file. 
+data = open('benchmarking_stats.csv', 'a')
+data.write(sys.argv[1] + ',' + stats_str + '\n')

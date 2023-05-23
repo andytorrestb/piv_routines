@@ -29,20 +29,23 @@ import matplotlib.cm as cm
 from PIL import Image
 
 class continuous_flow_field:
-    def __init__(self,data,inter=False, img = None):
+    def __init__(self, data, image_size, inter=False, img = None):
         '''
         Checks if the continous flow should be created from a set of data points
         if so it interpolates them for a continuous flow field
         '''
+
+        self.img_w = image_size[0]
+        self.img_h = image_size[1]
+
         # Get bound information if building solution from a set of results and image.
         if data is not None:
             print(data.shape)
             self.x_bound = (data['x'].min(), data['x'].max())
             self.y_bound = (data['y'].min(), data['y'].max())
-            self.img_w = img.shape[1]
-            self.img_h = img.shape[0]
-            print(self.img_w, self.img_h)
-
+            # self.img_w = img.shape[1]
+            # self.img_h = img.shape[0]
+            # print(self.img_w, self.img_h)
 
         self.inter = inter
         if inter:
@@ -57,17 +60,22 @@ class continuous_flow_field:
         #example for synthetic U velocity
         # u=2.5+0.5*np.sin((x**2+y**2)/0.01)
         R = self.y_bound[1]
-        V_avg = 25
-        # u = 2 * V_avg * (1 - np.square(y / R))
-        u = y - x
+        V_avg = 50
+        u = 2 * V_avg * (1 - np.square(y / R))
+        # x = 400 - x
+        # y = 400 - y        
+        # u = y - x
         return u
         
     
     def f_V(self,x,y):
         #example for synthetic V velocity
         # v=0.5+0.1*np.cos((x**2+y**2)/0.01)
+        x = 400 - x
+        y = 400 - y
         v = -1*(x + y)
         return np.zeros(x.shape)
+        # return v
     
     def get_U_V(self,x,y):
     	#return the U and V velocity at a certain position
@@ -78,10 +86,13 @@ class continuous_flow_field:
         
     def create_syn_quiver(self,number_of_grid_points,path=None):
     	#return and save a synthetic flow map 
+        offset = 32
         X,Y = np.meshgrid(
-            np.linspace(self.x_bound[0],self.x_bound[1],number_of_grid_points),
-            np.linspace(self.y_bound[0],self.y_bound[1],number_of_grid_points)
+            np.linspace(self.x_bound[0] + offset, self.x_bound[1] - offset,number_of_grid_points),
+            np.linspace(self.y_bound[0] + offset, self.y_bound[1] - offset,number_of_grid_points)
         )
+        X = X.round(decimals = 0)
+        Y = Y.round(decimals = 0)
         U = np.zeros(X.shape)
         V = np.zeros(Y.shape)
         for r in range(X.shape[0]):
@@ -97,7 +108,7 @@ class continuous_flow_field:
         pl.tight_layout()
         fig = pl.quiver(X, Y, U, V,m,
                 clim=[m.min(),m.max()],
-                scale=0.25,width=0.002,
+                scale=0.0005,width=0.002,
                 headwidth=6,
                 minshaft=2,
                 scale_units = 'dots',
@@ -105,7 +116,7 @@ class continuous_flow_field:
 
         cb = pl.colorbar(fig)
         cb.mappable.set_clim(vmin=1.5, vmax=m.max())
-    
+
         if not path:
             pl.savefig('syn_quiver.png', dpi=400)
             pl.close()
@@ -187,7 +198,7 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
         Particle intensities for the second synthetic image.
     """
 
-    #Data processing
+    # Data processing
     if not path == 'None':
         f = open(path,'r')
         data = f.readlines()
@@ -200,9 +211,9 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
         data = input_data
         
     if inter:
-        cff = continuous_flow_field(data,inter=True)
+        cff = continuous_flow_field(data,inter=True, image_size = image_size)
     else:
-        cff = continuous_flow_field(None)
+        cff = continuous_flow_field(None, image_size = image_size)
 
     #Saving bounds of image
     cff.x_bound = x_bound
@@ -265,7 +276,23 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
     
     conversion_value = min((x_bound[1]-x_bound[0])/image_size[0],(y_bound[1]-y_bound[0])/image_size[1])/dt
 
+    # Save all parameters to a single dictionary.
+    synImg_params = {}
+    synImg_params['cff'] = cff
+    synImg_params['conversion_value'] = conversion_value
+    synImg_params['x1'] = x1
+    synImg_params['y1'] = y1
+    synImg_params['U_par'] = bounded_xy_1[:,2]
+    synImg_params['V_par'] = bounded_xy_1[:,3]
+    synImg_params['par_diam1'] = bounded_xy_1[:,4]
+    synImg_params['par_int1'] = bounded_xy_1[:,4]
+    synImg_params['x2'] = x2
+    synImg_params['y2'] = y2
+    synImg_params['par_diam2'] =bounded_xy_2[:,2]
+    synImg_params['par_int2'] = bounded_xy_2[:,3]
+
     return cff,conversion_value,x1,y1,bounded_xy_1[:,2],bounded_xy_1[:,3],bounded_xy_1[:,4],bounded_xy_1[:,5],x2,y2,bounded_xy_2[:,2],bounded_xy_2[:,3]
+    # return synImg_params
 
 
 
