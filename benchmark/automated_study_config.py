@@ -1,12 +1,8 @@
 INPUT_DATA = {
-    # 'path_to_dir':'../../openpiv-python-examples/test16/',
-    # 'file_a':'exp1_001_b.bmp',
-    # 'file_b':'exp1_001_c.bmp',
-    # 'results':'exp1_001_b.txt' 
-    'path_to_dir':'../../openpiv-python-examples/test17/',    
-    'file_a':'frame_a.png',
-    'file_b':'frame_b.png',
-    'results':'ground-truth.txt' 
+    'path_to_dir':'../../openpiv-python-examples/test1/',
+    'file_a':'exp1_001_a.bmp',
+    'file_b':'exp1_001_b.bmp',
+    'results':'exp1_001_b.txt'
 }
 
 PIV_CROSS_CORR = {
