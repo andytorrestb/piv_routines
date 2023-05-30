@@ -263,4 +263,12 @@ elif nrows_grnd < nrows_piv:
 # =================================================================================
 # ||                   Section 6: Benchmarking Analysis of Results               ||
 # =================================================================================
+
+# Drop extra column (why does this show up in the first place?).
+ground_truth = ground_truth.drop('Unnamed: 0', axis = 1)
+
+# Print data for manual obversation of format.
+print(ground_truth)
+print(results)
+
 ParityPlot.parityPlot(ground_truth, results)
