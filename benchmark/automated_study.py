@@ -86,7 +86,7 @@ if not os.path.exists(path_to_dir):
 try:
     frame_a  = tools.imread(path_to_dir + file_a)
 except FileNotFoundError:
-    logger.error(' FileNotFoundError: ' + path_to_dir + file_b + '  is not found')
+    logger.error(' FileNotFoundError: ' + path_to_dir + file_a + '  is not found')
     exit()
 try:
     frame_b  = tools.imread(path_to_dir + file_b)
