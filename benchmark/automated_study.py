@@ -221,8 +221,7 @@ util.save_results(
 # =================================================================================
 print(ground_truth)
 # print(pd.read_csv('results/results_2.txt', sep ='\t'))
-print("BRO WTFFFFFFFF")
-results = pd.read_csv('results/OpenPIV_syn_img_pair-NEW.txt', sep ='\t')
+results = pd.read_csv('results/results_2.txt', sep ='\t')
 results.columns = ['x', 'y', 'u', 'v', 'flags', 'mask']
 print(results)
 
