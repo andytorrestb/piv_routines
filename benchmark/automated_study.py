@@ -43,23 +43,24 @@ import ParityPlot
 # =================================================================================
 # ||                         Section 1: Configure Logger                         ||
 # =================================================================================
+# Create directory to store results.
+# TO-DO: create unique folder and log file for each run.
+results_path = os.getcwd() + '/results'
+if not os.path.exists(results_path):
+    os.makedirs(results_path)
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(levelname)s:%(name)s:%(lineno)s:%(message)s')
 
-file_handler = logging.FileHandler('automated_study.log')
+file_handler = logging.FileHandler(results_path + '/automated_study.log')
 file_handler.setFormatter(formatter)
 
 logger.addHandler(file_handler)
 
 logger.info('========================== NEW RUN STARTED ==========================')
 
-# Create directory to store results.
-# TO-DO: create unique folder and log file for each run.
-results_path = os.getcwd() + '/results'
-if not os.path.exists(results_path):
-    os.makedirs(results_path)
 
 # =================================================================================
 # ||                      Section 2: Load Ground Truth Data                      ||
