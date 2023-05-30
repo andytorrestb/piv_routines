@@ -43,12 +43,14 @@ import ParityPlot
 # =================================================================================
 # ||                         Section 1: Configure Logger                         ||
 # =================================================================================
+
 # Create directory to store results.
 # TO-DO: create unique folder and log file for each run.
 results_path = os.getcwd() + '/results'
 if not os.path.exists(results_path):
     os.makedirs(results_path)
 
+# Configure logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -66,13 +68,13 @@ logger.info('========================== NEW RUN STARTED ========================
 # ||                      Section 2: Load Ground Truth Data                      ||
 # =================================================================================
 
-# Load configuration data.
+# Load configuration data for reading files.
 path_to_dir = config.INPUT_DATA['path_to_dir']
 file_a = config.INPUT_DATA['file_a']
 file_b = config.INPUT_DATA['file_b']
 file_results = config.INPUT_DATA['results']
 
-# Fix string format for directory if necessary.
+# Add trailing slash for proper directory format if necessary.
 if not path_to_dir[-1] == '/':
     path_to_dir = path_to_dir + '/'
 
@@ -100,7 +102,7 @@ except FileNotFoundError:
     logger.error(' FileNotFoundError: ' + path_to_dir + file_results + '  is not found')
     exit()
 
-# Use ground truth data to display and save a vector plot of the solution data.
+# WIP: Use ground truth data to display and save a vector plot of the solution data.
 # cff = synImg.continuous_flow_field(ground_truth, inter = True, img = frame_a)
 # cff.create_syn_quiver(50, path = results_path+'/')
 
@@ -119,7 +121,7 @@ winsize = config.PIV_CROSS_CORR['winsize']
 # pixels, search area size in frame B
 searchsize = config.PIV_CROSS_CORR['searchsize']
 
- # pixels, 50% overlap
+ # pixels, 0% overlap
 overlap = config.PIV_CROSS_CORR['overlap']
 
  # sec, time interval between the two frames
