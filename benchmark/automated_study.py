@@ -167,16 +167,18 @@ sns.histplot(x = sig2noise.flatten())
 fig.savefig('results/sig2noise.png', dpi = 300, bbox_inches='tight')
 
 # ID false data according to the signal to noise ratio.
-# invalid_mask = validation.sig2noise_val(
-#     sig2noise,
-#     threshold = config.SIG2NOISE_VAL['threshold'],
-# )
-
-invalid_mask = validation.global_val(
-    u0, v0,
-    (-800, 800),
-    (-800, 800)
+invalid_mask = validation.sig2noise_val(
+    sig2noise,
+    threshold = config.SIG2NOISE_VAL['threshold'],
 )
+
+# To Do: Allow user to decide methods/iterations for validation method in the config file.
+# i.e. make a function.
+# invalid_mask = validation.global_val(
+#     u0, v0,
+#     (-800, 800),
+#     (-800, 800)
+# )
 
 # Replace outliers with mean data.
 u1, v1 = filters.replace_outliers(
