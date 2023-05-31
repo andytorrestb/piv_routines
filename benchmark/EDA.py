@@ -63,14 +63,15 @@ def histogram_compare(data):
         # histogram_features(data[dataset].drop(['flags', 'mask'], axis = 1), dataset)
 
       histogram_features(data[dataset], dataset)
-    # # Load images into an array.
-    # img_arr = []
-    # for index, dataset in enumerate(data):
-    #   img_arr.append(cv.imread(dataset+'.png'))
 
-    # # Contatinate graphs into a single image. Save as one file.
-    # vis = np.concatenate(tuple(img_arr), axis = 0)
-    # cv.imwrite('compare.png', vis)
+    # Load images into an array.
+    img_arr = []
+    for index, dataset in enumerate(data):
+      img_arr.append(cv.imread('results/'+dataset+'.png'))
+
+    # Contatinate graphs into a single image. Save as one file.
+    vis = np.concatenate(tuple(img_arr), axis = 0)
+    cv.imwrite('results/compare.png', vis)
 
 # Graph all the features of a given data set into a single row.
 # Helper function for histogram_compare. 
