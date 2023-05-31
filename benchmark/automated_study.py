@@ -102,6 +102,9 @@ except FileNotFoundError:
     logger.error(' FileNotFoundError: ' + path_to_dir + file_results + '  is not found')
     exit()
 
+# Drop extra column (why does this show up in the first place?).
+ground_truth = ground_truth.drop('Unnamed: 0', axis = 1)
+
 # WIP: Use ground truth data to display and save a vector plot of the solution data.
 # cff = synImg.continuous_flow_field(ground_truth, inter = True, img = frame_a)
 # cff.create_syn_quiver(50, path = results_path+'/')
@@ -267,9 +270,6 @@ elif nrows_grnd < nrows_piv:
 # =================================================================================
 # ||                   Section 6: Benchmarking Analysis of Results               ||
 # =================================================================================
-
-# Drop extra column (why does this show up in the first place?).
-ground_truth = ground_truth.drop('Unnamed: 0', axis = 1)
 
 # Print data for manual obversation of format.
 print(ground_truth)
