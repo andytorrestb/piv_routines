@@ -89,3 +89,42 @@ def histogram_features(data, title):
     # Set title and save figure to file. 
     fig.suptitle(title, fontsize = 22, fontweight = 'bold', y = 1.02)
     fig.savefig('results/'+title+'.png', dpi = 300, bbox_inches='tight')
+
+# Execute direct comparison of data by plotting each feature.
+def compare_features(data):
+  # Set font dictionary
+  font_axis_publish = {
+        'color':  'black',
+        'weight': 'bold',
+        'size': 22,
+        }
+
+  # Save the names of the different data sets  (results) to be compared.
+  keys = list(data.keys())
+
+  # Save the names of the features for the data sets to be compared.
+  # To do: Compare these features to make sure they are the same, clean if needed.
+  features = data[keys[0]].columns
+
+  # Instantanciate the figure object.
+  fig, ax = plt.subplots(1, len(features), figsize = (30, 5))
+
+  for index, feature in enumerate(features):
+    # Save number of data points for each feature
+    index_values = np.array(data[keys[0]][feature].index)
+
+    # Graph the data in each feature
+    # To Do: Move this to a for loop iterating over "keys"
+    ax[index].plot(index_values, data[keys[0]][feature].values, label = keys[0])
+    ax[index].plot(index_values, data[keys[1]][feature].values, label = keys[1])
+
+    # Set informational text data.
+    ax[index].set_title(feature,  fontdict = font_axis_publish)
+    ax[index].legend()
+
+    # Printing data type to help debug (if needed)
+    # print(type(data[keys[0]][feature].index))
+    # print(index, feature)
+    # print(keys[0], keys[1])
+
+  fig.savefig('results/feature_comp.png', dpi = 300, bbox_inches='tight')
