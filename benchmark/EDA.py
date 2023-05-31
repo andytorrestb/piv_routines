@@ -46,22 +46,6 @@ def histogram_compare(data):
     # Graph all the features of a given data set into a single row.
     # Save to .png files. 
     for dataset in data:
-      # print(type(data[dataset].columns))
-      # print(data[dataset].columns.to_series().str.contains('flags'))
-
-      # cols = ['flags', 'mask']
-      # for col in cols:
-      #   if col in data[dataset].columns:
-      #     # print(data[dataset].columns)
-      #     # input()
-      #     # print('data['+dataset+'] = data['+dataset+'].drop(['+col+'])')
-      #     data[dataset] = data[dataset].drop([col], axis = 1)
-      #     # input()
-      # if data[dataset].columns.to_series().str.contains('flags'):
-      # if data[dataset].columns.to_series().str.contains('mask'):
-      #   data[dataset] = data[dataset].drop(['mask'])
-        # histogram_features(data[dataset].drop(['flags', 'mask'], axis = 1), dataset)
-
       histogram_features(data[dataset], dataset)
 
     # Load images into an array.
