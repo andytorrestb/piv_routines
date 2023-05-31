@@ -76,7 +76,7 @@ def histogram_features(data, title):
     fig.savefig('results/'+title+'.png', dpi = 300, bbox_inches='tight')
 
 # Execute direct comparison of data by plotting each feature.
-def compare_features(data):
+def plot_features(data):
   # Set font dictionary
   font_axis_publish = {
         'color':  'black',

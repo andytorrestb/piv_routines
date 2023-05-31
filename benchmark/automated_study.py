@@ -265,7 +265,8 @@ elif nrows_grnd < nrows_piv:
 # =================================================================================
 # ||                    Section 5: Comparative Analysis of Results               ||
 # =================================================================================
-# EDA.histogram_compare(data)
+EDA.histogram_compare(data)
+EDA.plot_features(data)
 
 # =================================================================================
 # ||                   Section 6: Benchmarking Analysis of Results               ||
