@@ -58,24 +58,18 @@ class continuous_flow_field:
     '''
     def f_U(self,x,y):
         #example for synthetic U velocity
-        # u=2.5+0.5*np.sin((x**2+y**2)/0.01)
-        R = self.y_bound[1]
-        V_avg = 50
-        u = 2 * V_avg * (1 - np.square(y / R))
-        # x = 400 - x
-        # y = 400 - y        
-        # u = y - x
+        x = x-400
+        y = y-400
+        u = y - x
         return u
         
     
     def f_V(self,x,y):
         #example for synthetic V velocity
-        # v=0.5+0.1*np.cos((x**2+y**2)/0.01)
-        x = 400 - x
-        y = 400 - y
+        x = x-400
+        y = y-400
         v = -1*(x + y)
-        return np.zeros(x.shape)
-        # return v
+        return v
     
     def get_U_V(self,x,y):
     	#return the U and V velocity at a certain position
