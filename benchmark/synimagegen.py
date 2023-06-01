@@ -123,6 +123,11 @@ class continuous_flow_field:
             pl.savefig(path + 'synthetic_data/quiver.png', dpi=400)
             pl.close()
         
+        self.X = X
+        self.Y = Y
+        self.U = U
+        self.V = V
+
         return X,Y,U,V
 
 
