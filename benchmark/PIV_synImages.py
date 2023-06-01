@@ -1,5 +1,6 @@
 from openpiv import tools, pyprocess, validation, filters, scaling
 import synimagegen as synImg
+import automated_study_config as config
 
 import numpy as np
 import pandas as pd
@@ -7,21 +8,49 @@ import matplotlib.pyplot as plt
 import imageio
 
 import inspect
-# Produce synthetic data parameters
-ground_truth,cv,x_1,y_1,U_par,V_par,par_diam1,par_int1,x_2,y_2,par_diam2,par_int2 = synImg.create_synimage_parameters(
-  None,[0,800],[0,800],[800,800],dt=0.0025)
 
-# Produce synthetic data
+# Produce synthetic data parameters
 img_h = 800
 img_w = 800 
 bit_depth = 16
-frame_a  = synImg.generate_particle_image(img_h, img_w, x_1, y_1, par_diam1, par_int1,bit_depth)
-frame_b  = synImg.generate_particle_image(img_h, img_w, x_2, y_2, par_diam2, par_int2,bit_depth)
+
+synImg_params = synImg.create_synimage_parameters(
+    None,
+    [0, img_h],
+    [0, img_w],
+    [img_h, img_w],
+    dt = config.PIV_CROSS_CORR['dt']
+)
+
+# Produce synthetic data
+
+frame_a = synImg.generate_particle_image(
+    img_h,
+    img_w,
+    synImg_params['x1'],
+    synImg_params['y1'],
+    synImg_params['par_diam1'],
+    synImg_params['par_int1'],
+    bit_depth
+)
+
+print(synImg_params['x2'].shape)
+print(synImg_params['x1'].shape)
+
+frame_b = synImg.generate_particle_image(
+    img_h,
+    img_w,
+    synImg_params['x2'],
+    synImg_params['y2'],
+    synImg_params['par_diam2'],
+    synImg_params['par_int2'],
+    bit_depth
+)
 
 print(type(frame_a))
 input()
 
-sX, sY, sU, sV = ground_truth.create_syn_quiver(24)
+sX, sY, sU, sV = synImg_params['cff'].create_syn_quiver(int(img_h/config.PIV_CROSS_CORR['winsize']))
 print(type(sX), type(sY), type(sU), type(sV))
 print(sX.shape, sY.shape, sU.shape, sV.shape)
 # print(sX)
