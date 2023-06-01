@@ -14,7 +14,7 @@ def save_results(results_path, x, y, u, v, path_to_dir, img_file, id):
             image_name = path_to_dir + img_file,
             show_plot = False,
         )
-
+    ax.set_title("PIV Results")
     fig.savefig(results_img)
 
     return
