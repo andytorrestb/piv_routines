@@ -1,15 +1,19 @@
 INPUT_DATA = {
-    'path_to_dir':'../../openpiv-python-examples/test1/',
-    'file_a':'exp1_001_a.bmp',
-    'file_b':'exp1_001_b.bmp',
-    'results':'exp1_001_b.txt'
+    # 'path_to_dir':'../../openpiv-python-examples/test1/',
+    # 'file_a':'exp1_001_a.bmp',
+    # 'file_b':'exp1_001_b.bmp',
+    # 'results':'exp1_001_b.txt'
+    'path_to_dir': 'synthetic_data',
+    'file_a': 'frame_a.png',
+    'file_b': 'frame_b.png',
+    'results': 'ground-truth.txt'
 }
 
 PIV_CROSS_CORR = {
     'winsize': 32,
     'searchsize': 32,
     'overlap': 0,
-    'dt': 1,
+    'dt': 0.0025,
     'sig2noise_method':'peak2peak',
 }
 
