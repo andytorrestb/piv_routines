@@ -48,7 +48,6 @@ frame_b = synImg.generate_particle_image(
 )
 
 print(type(frame_a))
-input()
 
 sX, sY, sU, sV = synImg_params['cff'].create_syn_quiver(int(img_h/config.PIV_CROSS_CORR['winsize']))
 print(type(sX), type(sY), type(sU), type(sV))
