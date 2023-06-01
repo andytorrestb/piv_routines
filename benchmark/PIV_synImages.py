@@ -54,6 +54,8 @@ print(type(sX), type(sY), type(sU), type(sV))
 print(sX.shape, sY.shape, sU.shape, sV.shape)
 # print(sX)
 
+synImg_params['cff'].save_flow_field('synthetic_data/ground_truth.txt')
+
 # print(ground_truth)
 # print(inspect.getmembers(ground_truth))
 
@@ -68,7 +70,7 @@ synData['u'] = sU.flatten()
 synData['v'] = sV.flatten()
 synData['flags'] = 0
 synData['mask'] = 0
-synData.to_csv('ground-truth.txt', index = False, sep = '\t')
+synData.to_csv('synthetic_data/ground-truth.txt', index = False, sep = '\t')
 
 winsize = 32 # pixels, interrogation window size in frame A
 searchsize = int(1.5*winsize)  # pixels, search area size in frame B
@@ -127,7 +129,7 @@ tools.save('OpenPIV_syn_img_pair-NEW.txt', x0, y0, u4, v4, invalid_mask)
 
 from PIL import Image
 im_a = Image.fromarray(frame_a.astype(np.int32))
-im_a.save("frame_a.png")
+im_a.save("synthetic_data/frame_a.png")
 
 im_b = Image.fromarray(frame_b.astype(np.int32))
-im_b.save("frame_b.png")
+im_b.save("synthetic_data/frame_b.png")
