@@ -103,7 +103,8 @@ except FileNotFoundError:
     exit()
 
 # Drop extra column (why does this show up in the first place?).
-ground_truth = ground_truth.drop('Unnamed: 0', axis = 1)
+if 'Unnamed: 0' in ground_truth.columns:
+    ground_truth = ground_truth.drop('Unnamed: 0', axis = 1)
 
 # WIP: Use ground truth data to display and save a vector plot of the solution data.
 # cff = synImg.continuous_flow_field(ground_truth, inter = True, img = frame_a)
