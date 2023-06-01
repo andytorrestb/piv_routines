@@ -290,8 +290,7 @@ def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None'
     synImg_params['par_diam2'] =bounded_xy_2[:,2]
     synImg_params['par_int2'] = bounded_xy_2[:,3]
 
-    return cff,conversion_value,x1,y1,bounded_xy_1[:,2],bounded_xy_1[:,3],bounded_xy_1[:,4],bounded_xy_1[:,5],x2,y2,bounded_xy_2[:,2],bounded_xy_2[:,3]
-    # return synImg_params
+    return synImg_params
 
 
 
