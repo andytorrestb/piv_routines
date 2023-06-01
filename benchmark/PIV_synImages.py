@@ -124,9 +124,6 @@ x0, y0, u3, v3 = scaling.uniform(
 x1, y1, u4, v4 = tools.transform_coordinates(x0, y0, u3, v3)
 # x1, y1, u3, v3 = tools.transform_coordinates(x, y, u2, v2)
 
-print(len(x0))
-tools.save('OpenPIV_syn_img_pair-NEW.txt', x0, y0, u4, v4, invalid_mask)
-
 from PIL import Image
 im_a = Image.fromarray(frame_a.astype(np.int32))
 im_a.save("synthetic_data/frame_a.png")
