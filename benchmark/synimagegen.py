@@ -130,6 +130,25 @@ class continuous_flow_field:
 
         return X,Y,U,V
 
+    def save_flow_field(self, path_to_file):
+        print(self.X)
+        print(self.Y)
+        print(self.U)
+        print(self.V)
+
+        print(self.V.shape)
+
+        shape = self.X.shape
+
+        for i in range(shape[0]):
+            for j in range(shape[1]):
+                print(i, j)
+                print(
+                    'x = ', self.X[i, j],
+                    'y = ', self.Y[i,j],
+                    'u = ', self.U[i,j],
+                    'v = ', self.V[i,j]
+                )
 
 def create_synimage_parameters(input_data,x_bound,y_bound,image_size,path='None',inter=False,den=0.008,per_loss_pairs=2,par_diam_mean=15**(1.0/2),par_diam_std=1.5,par_int_std=0.25,dt=0.1):
     """Creates the synthetic image with the synthetic image parameters
