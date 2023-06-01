@@ -95,27 +95,32 @@ class continuous_flow_field:
                 U[r,c] = u
                 V[r,c] = v
         
-
+        # calculate magnitude of vectors
         m = np.sqrt(np.power(U, 2) + np.power(V, 2))
-        figsize = int(self.img_w/250), int(self.img_h/250)
+
+        # Create and plot vector field (quiver plot)
+        figsize = int(self.img_w/250), int(self.img_h/250) # change 250 to dpi?
         pl.figure(figsize = figsize)
-        pl.tight_layout()
+        # pl.tight_layout()
         fig = pl.quiver(X, Y, U, V,m,
                 clim=[m.min(),m.max()],
-                scale=0.0005,width=0.002,
+                label = 'test',
+                scale=7.5,width=0.002,
                 headwidth=6,
                 minshaft=2,
                 scale_units = 'dots',
             )
 
+        pl.title('Ground Truth [pixels/s]')
+
         cb = pl.colorbar(fig)
         cb.mappable.set_clim(vmin=1.5, vmax=m.max())
 
         if not path:
-            pl.savefig('syn_quiver.png', dpi=400)
+            pl.savefig('synthetic_data/quiver.png', dpi=400)
             pl.close()
         else:
-            pl.savefig(path + 'syn_quiver.png', dpi=400)
+            pl.savefig(path + 'synthetic_data/quiver.png', dpi=400)
             pl.close()
         
         return X,Y,U,V
