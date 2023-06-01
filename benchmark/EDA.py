@@ -41,6 +41,20 @@ def print_summary_stats(data, title):
 
   print()
 
+# Assumes that images have been produced and saved in the "results/" folder for each data set.
+def find_max_width(data):
+  max_width = 0
+  for dataset in data:
+    # Read in image
+    img = cv.imread('results/'+dataset+'.png')
+    print(data[dataset].shape)
+    print(img.shape)
+
+    if img.shape[1] > max_width:
+      max_width = img.shape[1]
+
+  return max_width
+
 # Graph histogram of data into a single subplot for visual comparisons.
 def histogram_compare(data):
     # Graph all the features of a given data set into a single row.
@@ -48,10 +62,15 @@ def histogram_compare(data):
     for dataset in data:
       histogram_features(data[dataset], dataset)
 
+    max_width = find_max_width(data)
+
     # Load images into an array.
     img_arr = []
     for index, dataset in enumerate(data):
-      img_arr.append(cv.imread('results/'+dataset+'.png'))
+        image = cv.imread('results/' + dataset + '.png')
+        # Resize the image to a common width
+        image = cv.resize(image, (max_width, image.shape[0]))
+        img_arr.append(image)
 
     # Contatinate graphs into a single image. Save as one file.
     vis = np.concatenate(tuple(img_arr), axis = 0)
